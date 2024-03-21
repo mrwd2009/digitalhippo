@@ -5,9 +5,13 @@ import Image from "next/image";
 import NavItems from "./NavItems";
 import { buttonVariants } from "./ui/button";
 import Cart from "./Cart";
+import { cookies } from "next/headers";
+import { getServerSiderUser } from "@/lib/payload-utils";
+import UserAccountNav from "./UserAccountNav";
 
-const Navar = () => {
-  const user = null;
+const Navar = async () => {
+  const nextCookies = cookies();
+  const { user } = await getServerSiderUser(nextCookies);
 
   return (
     <div className="bg-white sticky z-50 top-0 inset-x-0 h-16">
@@ -36,7 +40,7 @@ const Navar = () => {
                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   )}
 
-                  { user ? <p></p> : (
+                  { user ? <UserAccountNav user={user} /> : (
                     <Link href="/sign-up" className={buttonVariants({ variant: 'ghost' })}>Create account</Link>
                   )}
 
